@@ -11,6 +11,10 @@ A high-frequency financial data engineering project. This system streams live tr
 
 ## 🏗️ Architecture
 
+### Diagram
+
+![Architecture Diagram](Architecture.png)
+
 ### Producer (`producer.py`)
 - Connects to Finnhub WebSockets
 - Filters for specific tickers: `NVDA`, `AAPL`, `TSLA`
