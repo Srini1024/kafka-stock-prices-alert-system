@@ -73,7 +73,6 @@ try:
     for message in consumer:
         trade = message.value
         
-        
         sym = trade.get('symbol') or trade.get('s')
         price = trade.get('price') or trade.get('p')
         if not sym or not price:
