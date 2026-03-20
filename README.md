@@ -31,13 +31,13 @@ A high-frequency financial data engineering project. This system streams live tr
 - Calculates real-time Total Value and Profit/Loss (P/L)
 - Triggers an enhanced email alert (snapshot stats included) when price hits user-defined threshold
 
-<img src="./static/tslaalert.png" alt="Email Alert" width="500">
+<img src="./static/tslaalert.png" alt="Email Alert" width="700">
 
 ### Consumer 2 (`Dashboard.py`)
 - Transforms the raw Kafka stream into an interactive Streamlit dashboard with live-updating metric cards for NVDA, AAPL, and TSLA.
 - Utilizes Plotly to render individual, auto-scaling price graphs that overlay a red dashed "Alert Line" for visual technical analysis.
 
-<img src="./static/dashboardalert.png" alt="Dashboard" width="500">
+<img src="./static/dashboardalert.png" alt="Dashboard" width="700">
 
 
 ## 🚀 Setup & Installation
