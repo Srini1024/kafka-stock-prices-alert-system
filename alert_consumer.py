@@ -72,18 +72,30 @@ print(f" Master Tracker Live | Watching: {', '.join(portfolio.keys())}")
 try:
     for message in consumer:
         trade = message.value
-        sym = trade.get('symbol')
-        price = trade.get('price')
+        
+        # 1. Extract data (Safely handle potentially different key names)
+        sym = trade.get('symbol') or trade.get('s')
+        price = trade.get('price') or trade.get('p')
+
+        # Skip if data is malformed
+        if not sym or not price:
+            continue
 
         if sym in portfolio:
+            # 2. Update the current price in our tracking dictionary
             portfolio[sym]['current_price'] = price
-    
-            if price <= portfolio[sym]['alert_at']:
-                send_alert(sym, price)
-
+            
+            # 3. CALCULATE PORTFOLIO STATS FIRST
+            # We do this before the alert so the email has the latest numbers
             total_value = sum(s['shares'] * s['current_price'] for s in portfolio.values())
             total_gain = sum((s['current_price'] - s['buy_price']) * s['shares'] for s in portfolio.values())
     
+            # 4. CHECK ALERT THRESHOLD
+            # Logic: If price drops below or hits your alert_at limit
+            if price <= portfolio[sym]['alert_at']:
+                # FIX: Pass all 4 required arguments to match the function definition
+                send_alert(sym, price, total_value, total_gain)
+
             status = f"💰 Portfolio: ${total_value:,.2f} | P/L: ${total_gain:+.2f} | Last Tick: {sym} @ ${price:.2f}"
             print(f"\r{status}", end="", flush=True)
 

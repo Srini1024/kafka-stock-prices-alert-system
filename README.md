@@ -8,12 +8,14 @@ A high-frequency financial data engineering project. This system streams live tr
 - Message Broker: Apache Kafka 4.2.0 (KRaft Mode - No Zookeeper)
 - Data Source: Finnhub.io Real-time WebSockets
 - Alerting: SMTP (Gmail/TLS) with ssl context
+- Dashboard: Streamlit app with plotty graphs
 
 ## 🏗️ Architecture
 
 ### Diagram
 
-![Architecture Diagram](Architecture.png)
+<img src="./static/Architecture.png" alt="Architecture Diagram" width="300">
+
 
 ### Producer (`producer.py`)
 - Connects to Finnhub WebSockets
@@ -24,10 +26,19 @@ A high-frequency financial data engineering project. This system streams live tr
 - Acts as distributed message buffer
 - Uses modern KRaft consensus protocol
 
-### Consumer (`alert_consumer.py`)
+### Consumer 1 (`alert_consumer.py`)
 - Tracks a live "Fake Portfolio"
 - Calculates real-time Total Value and Profit/Loss (P/L)
 - Triggers an enhanced email alert (snapshot stats included) when price hits user-defined threshold
+
+<img src="./static/tslaalert.png" alt="Email Alert" width="300">
+
+### Consumer 2 (`Dashboard.py`)
+- Transforms the raw Kafka stream into an interactive Streamlit dashboard with live-updating metric cards for NVDA, AAPL, and TSLA.
+- Utilizes Plotly to render individual, auto-scaling price graphs that overlay a red dashed "Alert Line" for visual technical analysis.
+
+<img src="./static/dashboardalert.png" alt="Dashboard" width="300">
+
 
 ## 🚀 Setup & Installation
 
@@ -88,6 +99,7 @@ KAFKA_BOOTSTRAP_SERVERS=localhost:9092
 1. Start Kafka Broker (from step 2.3)
 2. Launch Producer: `python producer.py`
 3. Launch Consumer: `python alert_consumer.py`
+4. Launch Dashboard: `streamlit run dashboard.py`
 
 ## 👨‍💻 Project Highlights
 
